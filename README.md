@@ -20,7 +20,8 @@ new-chameleon-strategy/
 │   └── visualization_utils.py              # Affichage et visualisation
 │
 ├── video/
-│   └── analyze_video_frames.py             # 🎥 V1 – traitement vidéo frame par frame
+│   ├── analyze_video_frames.py             # 🎥 Vidéo V1 – traitement vidéo frame par frame
+│   └── analyze_video_frames_skipping.py    # 🎥 Vidéo V2 – skipping + interpolation
 │
 ├── samples/                                # Images de test
 ├── video_inputs/                           # Vidéos d'entrée à traiter
@@ -50,10 +51,11 @@ new-chameleon-strategy/
 
 ### 🎥 Partie Vidéo
 
-| Version | Script                        | Fonction principale |
-|---------|-------------------------------|---------------------|
-| V1      | `analyze_video_frames.py`     | Traitement d'une vidéo frame par frame (offline) |
-| V2+     | (à venir)                     | Temps réel (caméra, vidéo live, etc.) |
+| Version | Script                              | Fonction principale |
+|---------|--------------------------------------|---------------------|
+| V1      | `analyze_video_frames.py`           | Traitement frame par frame (offline) |
+| V2      | `analyze_video_frames_skipping.py`  | Segmentation partielle + interpolation (skipping) |
+| V3+     | (à venir)                           | Temps réel (caméra, vidéo live, etc.) |
 
 Les vidéos à traiter doivent être placées dans `video_inputs/`.  
 Les résultats sont enregistrés :
@@ -93,10 +95,16 @@ pip install -r requirements.txt
 python chameleon/analyze_image.py
 ```
 
-### 📼 Analyse vidéo (offline, image par image) :
+### 📼 Analyse vidéo (frame par frame) :
 
 ```bash
 python video/analyze_video_frames.py
+```
+
+### ⚡ Analyse vidéo (skipping + interpolation) :
+
+```bash
+python video/analyze_video_frames_skipping.py
 ```
 
 ---
