@@ -7,3 +7,4 @@ __pycache__/
 results/
 debug_images/
 video_outputs/
+samples/* 2.*
