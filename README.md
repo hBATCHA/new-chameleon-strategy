@@ -12,23 +12,24 @@
 ```
 new-chameleon-strategy/
 ├── chameleon/
-│   ├── basic_segmentation.py               # V1 – segmentation simple
-│   ├── analyze_image_colors.py             # V2 – ajout de couleurs dominantes
-│   ├── analyze_image_colors_split.py       # V3 – split gauche/droite
-│   ├── analyze_image.py                    # ✅ V4 – version finale image
-│   ├── color_analysis_utils.py             # Module logique (KMeans, split, etc.)
-│   └── visualization_utils.py              # Affichage et visualisation
+│   ├── basic_segmentation.py               
+│   ├── analyze_image_colors.py             
+│   ├── analyze_image_colors_split.py       
+│   ├── analyze_image.py                    
+│   ├── color_analysis_utils.py             
+│   └── visualization_utils.py              
 │
 ├── video/
-│   ├── analyze_video_frames.py             # 🎥 Vidéo V1 – traitement vidéo frame par frame
-│   └── analyze_video_frames_skipping.py    # 🎥 Vidéo V2 – skipping + interpolation
+│   ├── analyze_video_frames.py                  # 🎥 Vidéo V1 – traitement vidéo frame par frame
+│   ├── analyze_video_frames_skipping.py         # 🎥 Vidéo V2 – skipping + interpolation (segmentation)
+│   └── video_frameskip_interpolator.py          # ⚙️ Outil générique skipping/interpolation (non lié à DeepLab)
 │
-├── samples/                                # Images de test
-├── video_inputs/                           # Vidéos d'entrée à traiter
-├── video_outputs/                          # (Non versionné) – vidéos générées automatiquement
-├── results/                                # (Non versionné) – résultats image (masques, etc.)
-├── checkpoints/                            # Modèle DeepLabV3+ pré-entraîné
-├── DeepLabV3Plus-Pytorch/                  # Code original de VainF (modifié)
+├── samples/                                
+├── video_inputs/                           
+├── video_outputs/                          
+├── results/                                
+├── checkpoints/                            
+├── DeepLabV3Plus-Pytorch/                  
 ├── requirements.txt
 ├── .gitignore
 └── README.md
@@ -42,10 +43,10 @@ new-chameleon-strategy/
 
 | Version | Script                          | Fonction principale |
 |---------|----------------------------------|---------------------|
-| V1      | `basic_segmentation.py`         | Segmentation simple (masques) |
-| V2      | `analyze_image_colors.py`       | Ajout des couleurs dominantes par classe |
-| V3      | `analyze_image_colors_split.py` | Analyse gauche/droite des classes |
-| V4      | `analyze_image.py`              | ✅ Version stable : options avancées, visualisation, export |
+| V1      | `basic_segmentation.py`         | Segmentation simple |
+| V2      | `analyze_image_colors.py`       | Couleurs dominantes |
+| V3      | `analyze_image_colors_split.py` | Split gauche/droite |
+| V4      | `analyze_image.py`              | Version finale (export, options) |
 
 ---
 
@@ -53,21 +54,25 @@ new-chameleon-strategy/
 
 | Version | Script                              | Fonction principale |
 |---------|--------------------------------------|---------------------|
-| V1      | `analyze_video_frames.py`           | Traitement frame par frame (offline) |
-| V2      | `analyze_video_frames_skipping.py`  | Segmentation partielle + interpolation (skipping) |
-| V3+     | (à venir)                           | Temps réel (caméra, vidéo live, etc.) |
+| V1      | `analyze_video_frames.py`           | Segmentation frame par frame |
+| V2      | `analyze_video_frames_skipping.py`  | Segmentation 1 sur N + interpolation |
+| Tool    | `video_frameskip_interpolator.py`   | ✅ Outil générique skipping + effets visuels |
 
-Les vidéos à traiter doivent être placées dans `video_inputs/`.  
-Les résultats sont enregistrés :
-- dans `results/` pour les images
-- dans `video_outputs/` pour les vidéos
+---
+
+## 📂 Répertoires importants
+
+- `video_inputs/` : vidéos à traiter
+- `video_outputs/` : vidéos générées automatiquement (non versionné)
+- `results/` : sorties images (non versionné)
+- `checkpoints/` : modèles DeepLab pré-entraînés
 
 ---
 
 ## ⚙️ Prérequis
 
 - Python 3.7+
-- CUDA (optionnel, recommandé)
+- CUDA (optionnel)
 - Dépendances :
 
 ```txt
@@ -79,7 +84,7 @@ matplotlib
 scikit-learn
 ```
 
-📦 Installer les dépendances :
+Installation :
 
 ```bash
 pip install -r requirements.txt
@@ -89,50 +94,55 @@ pip install -r requirements.txt
 
 ## 🚀 Exécution
 
-### 🔍 Analyse d'image (version finale) :
+### 🖼️ Image (version finale) :
 
 ```bash
 python chameleon/analyze_image.py
 ```
 
-### 📼 Analyse vidéo (frame par frame) :
+### 📼 Vidéo – frame par frame :
 
 ```bash
 python video/analyze_video_frames.py
 ```
 
-### ⚡ Analyse vidéo (skipping + interpolation) :
+### ⚡ Vidéo – skipping + interpolation :
 
 ```bash
 python video/analyze_video_frames_skipping.py
+```
+
+### 🛠️ Outil générique skipping/interpolation :
+
+```bash
+python video/video_frameskip_interpolator.py
 ```
 
 ---
 
 ## 📌 Modèle utilisé
 
-- Architecture : **DeepLabV3+** avec backbone **MobileNet**
+- Modèle : **DeepLabV3+ MobileNet**
 - Checkpoint : `checkpoints/best_deeplabv3plus_mobilenet_cityscapes_os16.pth`
-- Entraînement : dataset **Cityscapes**, 19 classes
+- Dataset : Cityscapes (19 classes)
 
 ---
 
 ## 👨‍💻 Auteur
 
 Développé par **Hashif Batcha**  
-- Projet pédagogique et expérimental
-- Structure pensée pour évoluer vers des systèmes embarqués ou temps réel
-- Basé sur [DeepLabV3Plus-Pytorch](https://github.com/VainF/DeepLabV3Plus-Pytorch)
+- Projet pédagogique
+- Structuré pour évoluer vers une démo embarquée/temps réel
 
 ---
 
 ## 📄 Licence
 
-Ce projet est open-source à des fins d’expérimentation et de démonstration.  
-Pour un usage commercial ou publication, contactez l’auteur.
+Usage expérimental ou personnel autorisé.  
+Pour publication ou usage professionnel : contacter l’auteur.
 
 ---
 
-## 🧭 Prochaines étapes (TODO)
+## 🧭 TODO
 
 - Version webcam (temps réel)
