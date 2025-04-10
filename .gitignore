@@ -5,3 +5,5 @@ __pycache__/
 .idea/
 .vscode/
 results/
+debug_images/
+video_outputs/
